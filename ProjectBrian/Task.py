@@ -8,7 +8,7 @@ class TaskState:
 
     def getOwners(self):
         return self.owners
-:w
+
 
 class BackLog(TaskState):
     def __init__(self,taskState):
@@ -28,20 +28,22 @@ class Done(TaskState):
         self.owners = taskState.getOwners()
 
 class TaskContext:
-    def __init__(self,taskState):
-        self.content = taskState
+    def __init__(self,taskContent,owners):
+        self.content = TaskState(taskContent,owners)
+        self.content = BackLog(self.content)
+
 
     def moveToInProgress(self):
-        self.content = InProgress(taskState)
+        self.content = InProgress(self.content)
     
     def moveToBackLog(self):
-        self.content = BackLog(taskState)
+        self.content = BackLog(self.content)
 
     def moveToDone(self):
-        self.content = Done(taskState)
+        self.content = Done(self.content)
 
     def getOwners(self):
-        return taskState.getOwners()
+        return self.content.getOwners()
 
     def getTaskContent(self):
-        return taskState.getTaskContent()
+        return self.content.getTaskContent()
