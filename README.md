@@ -6,7 +6,8 @@ We are going to use MySQL and Python for this terminal based project.
 
 To setup mysql and use the file in src/database.py do the following:
 ```
-sudo apt-get install mysql
+sudo apt-get install mysql-server
+sudo apt-get install mysql-client
 sudo apt-get install mysql.connector
 ```
 
