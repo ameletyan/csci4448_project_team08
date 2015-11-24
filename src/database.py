@@ -39,7 +39,7 @@ def toInProgress(task):
 def toDone(task):
 	return 0
 
-# user: see my own tasks
+# user: see user's tasks only
 def seeOwnTasks(user_name):
 	return 0
 
@@ -56,11 +56,23 @@ def getUsers(board_name):
 
 # board: get tasks
 def getTasks(board_name):
-	return 0
+	query = "SELECT tasks FROM boards WHERE board_name = '%s'" % board_name
+	cursor.execute(query)
+	taskList = []
+	for task in cursor:
+		taskList.append(task)
+
+	print(taskList)
+	#return taskList
 
 # board: get leader
 def getLeader(board_name):
-	return 0
+	query = "SELECT leader FROM boards WHERE board_name = '%s'" % board_name
+	cursor.execute(query)
+	leader = ""
+
+	print(leader)
+	#return leader
 
 # MAIN
 def main():
