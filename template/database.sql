@@ -1,3 +1,4 @@
+/*
 CREATE TABLE boards
 (
     board_id integer,
@@ -19,24 +20,36 @@ CREATE TABLE tasks
     description varchar(255),
     user_id integer
 );
+*/
 
-
-
-/*
-CREATE TABLE leaders
+CREATE TABLE boards
 (
-    leader_id integer,
-    leader_name varchar(50),
-    member_id integer
+    board_id integer,
+    board_name varchar(50),
+    task_id integer,
+    leader_id integer
+)
 
-);
+CREATE TABLE tasks
+(
+    task_id integer,
+    task_title varchar(50),
+    task_description varchar(256),
+    task_state varchar(5),
+    user_id integer 
+)
 
 CREATE TABLE members
 (
     member_id integer,
     member_name varchar(50),
-    leader_id integer,
-    user_id integer
-);
-*/
+    email varchar(50)
+)
 
+CREATE TABLE leaders
+(
+    leader_id integer,
+    leader_name varchar(50),
+    member_id integer,
+    email varchar(5)
+)
