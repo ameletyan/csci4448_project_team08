@@ -1,3 +1,5 @@
+from member import Member
+
 class Leader (Member):
 	def assignTasks(self, task):
 		return 0
