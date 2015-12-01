@@ -1,4 +1,9 @@
-import task, board, member, leader
+#import task, board, member, leader
+from models.leader import Leader
+from models.member import Member
+from models.board import Board
+from models.task import TaskState, BackLog, InProgress, Done, TaskContext
+
 from clint.textui import prompt, validators, puts, indent, cols
 import console
 from terminaltables import DoubleTable
