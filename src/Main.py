@@ -1,45 +1,47 @@
+import task, board, member, leader
 from clint.textui import prompt, validators, puts, indent, cols
 import console
+from terminaltables import DoubleTable
+import getpass
 
 
 
-def printTasks():
-    '''get data from db'''
-    backlog = ['1.', 'This is task 1 it is cooliasidfisadfiasidfiasdfiasidfisadiiasdfjas djfisajdf isadfij asidfjisad fijsaidf isjdfiasdfi jaisdfj iasdjfi jasidfj iasdfj iasjdfi ajsdifj saidjf iasjdfijasdifjiasdjfi jaisdjfiasdfjf', 'EFL']
-    inProgress = ['1', 'asdf is easy', 'SAM']
-    done = ['1', 'wot', 'asdf', '2','asdf','asdf']
-    tasks = [backlog,inProgress,done]
-    
-    (width, height) = console.getTerminalSize()
-    print (width, height)
-    
 
-    for i in range(0,(max(len(taskType) / 3 for taskType in tasks ))):
-        
-        
-        if len(backlog)/3 > i:
-            for i in range(0,2):
-                if backlog[i+1] > (width/3 - 5):
-                    print'|',backlog[i], backlog[i+1][:(width/3 - 5)], '|'
-                    backlog[i+1] = backlog[i+1][(width/3 - 5):]
-                else:
-                    print '|',backlog[i+1][(width/3 - 5):], ' ', backlog[i+2], '|'
 
-        if (len(inProgress)/3 > i): 
-            print backlog[i], backlog[i+1], ' ',backlog [i+2]    
-        if len(done)/3 > i:
-            print done[i], done[i+1], ' ',done[i+2]
+def insert (source_str, insert_str, pos):
+    return source_str[:pos]+insert_str+source_str[pos:]
+
+(width, height) = console.getTerminalSize()
+i = 0
+bl = '1. This is task 1 it is very very easy I think! and heres to hoping multi-line works!!!!!!'
+j = 0
+for char in bl:
+    if i == width/3-4:
+       bl = insert(bl,'\n',i) 
+    i+=1
+
+backLogWithSpacing = "Backlog" + " " * (width/3-4-len("Backlog"))
+inProgressWithSpacing = "In Progress" + " " * (width/3-4-len("In Progress"))
+doneWithSpacing = "Done" + " " * (width/3-4-len("Done"))
+table_data = [
+    [backLogWithSpacing, inProgressWithSpacing, doneWithSpacing],
+    [bl, '1. This is in IN PROGRESS I HOPE', '1. This should be done yay!'],
+    ['2. This is task 2 it will never be done', '2. There is no done', '']
+]
+table = DoubleTable(table_data, 'Board Name')
+
+table.inner_row_border = True
+print(table.table)
+
+
+
 in_data = 'login'
-
-
 while in_data != 'quit':
-    printTasks()
     if in_data == 'login':
         username = prompt.query('Enter username:')
-        password = prompt.query('Enter password:')
-        
+        password = getpass.getpass('Password:')
         '''while in_data != valid:
-            in_data = promy.query('Enter valid Log-in:')
+            in_data = prompt.query('Enter valid Log-in:')
            '''  
     
         in_data = 'boards' 
@@ -54,14 +56,37 @@ while in_data != 'quit':
             '''creator = member.getName()
             do leader stuff?'''
             printTasks()
-            
-
-
-     
-    
-
-
-    '''with indent(4):
-        puts('indented text')'''
-    
+                
     in_data = prompt.query('Enter Page')
+'''
+def printTasks():
+    #get data from db
+    backlog = ['1.', 'This is task 1 it is cooliasidfisadfiasidfiasdfiasidfisadiiasdfjas djfisajdf isadfij asidfjisad fijsaidf isjdfiasdfi jaisdfj iasdjfi jasidfj iasdfj iasjdfi ajsdifj saidjf iasjdfijasdifjiasdjfi jaisdjfiasdfjf', 'EFL']
+    inProgress = ['1', 'asdf is easy', 'SAM']
+    done = ['1', 'wot', 'asdf', '2','asdf','asdf']
+    tasks = [backlog,inProgress,done]
+    
+    (width, height) = console.getTerminalSize()
+    print (width, height)
+    extraLineBacklog = False
+    extraLineInProgress = False
+    extraLineDone = False
+    for i in range(0,(max(len(taskType) / 3 for taskType in tasks ))):
+        if len(backlog)/3 > i:
+            if backlog[i+1] > (width/3 - 5):
+                print'|',backlog[3*i], backlog[3*i+1][:(width/3 - 5)], '|',
+                backlog[3*i+1] = backlog[3*i+1][(width/3 - 5):]
+                extraLineBackLog = True
+            else:
+                print '|',backlog[i+1][(width/3 - 5):], ' ', backlog[i+2], '|',
+
+        if ((len(inProgress)+1)/3 > i): 
+            print inProgress[3*i], inProgress[3*i+1], ' ',inProgress[3*i+2],'|',  
+        if (len(done)+1)/3 > i:
+            print done[3*i], done[3*i+1], ' ',done[3*i+2]
+        #check if extra line(s) are needed
+        if extraLineBacklog == True or extraLineDone == True or extraLineInProgress == True:
+            print 'i lowered'
+            i -= 1
+'''
+

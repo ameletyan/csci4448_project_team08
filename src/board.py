@@ -7,7 +7,7 @@ class Board:
         self.members = []
         self.leader = ''
         self.title = ''
-        self.tasks []
+        self.tasks = []
 
     def createTasks(self,taskContent,owners):
         newTask = TaskState(taskContent,owners)

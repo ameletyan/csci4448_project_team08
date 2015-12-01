@@ -29,9 +29,8 @@ def seeAllTasks():
 
 	for task in cursor:
 		taskList.append(task)
-
-	print(taskList)
-	#return taskList
+	#print(taskList)
+	return taskList
 
 # leader: make tasks/assign members
 # 	"members" is a list of members to assign
