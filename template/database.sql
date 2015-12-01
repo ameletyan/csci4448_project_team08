@@ -43,7 +43,9 @@ CREATE TABLE members
 (
     member_id integer,
     member_name varchar(50),
-    email varchar(50)
+    email varchar(50),
+	password varchar(50),
+	boards varchar(256)
 )
 
 CREATE TABLE leaders
