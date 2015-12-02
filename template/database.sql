@@ -1,33 +1,10 @@
-/*
 CREATE TABLE boards
 (
     board_id integer,
     board_name varchar(50),
-    user_id integer
-);
-
-CREATE TABLE users
-(
-    user_id integer,
-    leader boolean,
-    email varchar(50),
-    name varchar(50)
-);
-
-CREATE TABLE tasks
-(
-    task_id integer,
-    description varchar(255),
-    user_id integer
-);
-*/
-
-CREATE TABLE boards
-(
-    board_id integer,
-    board_name varchar(50),
-    task_id integer,
-    leader_id integer
+    task_ids varchar(256),
+	leader_id integer,
+	member_ids varchar(256),
 )
 
 CREATE TABLE tasks
@@ -36,7 +13,7 @@ CREATE TABLE tasks
     task_title varchar(50),
     task_description varchar(256),
     task_state varchar(5),
-    user_id integer 
+   	member_id integer 
 )
 
 CREATE TABLE members
@@ -45,9 +22,10 @@ CREATE TABLE members
     member_name varchar(50),
     email varchar(50),
 	password varchar(50),
-	boards varchar(256)
+	board_ids varchar(256)
 )
 
+/*Probably not needed*/
 CREATE TABLE leaders
 (
     leader_id integer,
