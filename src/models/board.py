@@ -10,9 +10,7 @@ class Board:
         self.tasks = []
 
     def createTasks(self,taskContent,owners):
-        newTask = TaskState(taskContent,owners)
-        newTask = BackLog(newTask)
-        newTask = TaskContext(newTask)
+        newTask = TaskContext(taskContent,owners)
         self.tasks.append(newTask)
 
     def getTitle(self):
