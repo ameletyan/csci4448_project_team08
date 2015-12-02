@@ -1,7 +1,13 @@
 import mysql.connector
+import random
+import string
 
 conn = mysql.connector.connect(user='tempuser', password='password', database='project_brian_test')
 cursor = conn.cursor()
+
+def id_generator(size=6, char=string.ascii_uppercase + string.digits):
+    return ''.join(random.choice(chars) for _ in range(size))
+
 
 # user: sign up
 #	NEED TO FIGURE HOW LOGIN SYSTEM IS GONNA WORK
@@ -19,6 +25,11 @@ def makeBoard(leader_name):
 	return 0
 
 # leader: add members to board (?)
+def addMembers(board, members):
+    for n in members:
+        rand_id = id_generator()
+        query = "UPDATE boards SET member_ids='%s'" % rand_id + " WHERE boards='%s'" % board
+        cursor.execute(query)
 
 # user: see all tasks
 #	this method will probably be called initially by default as opposed to seeOwnTasks()
