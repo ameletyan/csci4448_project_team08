@@ -2,6 +2,8 @@ from task import TaskState
 from task import BackLog
 from task import TaskContext
 
+from database import Database
+
 class Board:
     def __init__(self, members, leader, title, tasks):
         self.members = []
