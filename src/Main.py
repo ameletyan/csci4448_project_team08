@@ -3,7 +3,7 @@ from models.leader import Leader
 from models.member import Member
 from models.board import Board
 from models.task import TaskState, BackLog, InProgress, Done, TaskContext
-
+import models.database
 from clint.textui import prompt, validators, puts, indent, cols
 import console
 from terminaltables import DoubleTable
@@ -37,18 +37,23 @@ table = DoubleTable(table_data, 'Board Name')
 
 table.inner_row_border = True
 print(table.table)
-
-
+print(models.database.checkLogin("sadf", "we"))
 
 in_data = 'login'
 while in_data != 'quit':
     if in_data == 'login':
-        username = prompt.query('Enter username:')
-        password = getpass.getpass('Password:')
-        '''while in_data != valid:
-            in_data = prompt.query('Enter valid Log-in:')
-           '''  
-    
+        username = prompt.query('Enter username(1 to sign-up):')
+        if username == '1':
+            username = prompt.query('Enter username:')
+            email = prompt.query('Enter e-mail:')
+            password = getpass.getpass('Enter password:')
+            models.database.signUp(username, email, password)
+        else:
+            password = getpass.getpass('Password:')
+            
+        
+        
+
         in_data = 'boards' 
 
 
