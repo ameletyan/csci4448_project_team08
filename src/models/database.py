@@ -1,6 +1,7 @@
 import mysql.connector
 import random
 import string
+import unicodedata
 
 conn = mysql.connector.connect(user='tempuser', password='password', database='project_brian_test')
 cursor = conn.cursor()
@@ -8,11 +9,18 @@ cursor = conn.cursor()
 def id_generator(size=6, char=string.ascii_uppercase + string.digits):
     return ''.join(random.choice(chars) for _ in range(size))
 
+def checkLogin(username, password):
+    cursor.execute("SELECT member_name FROM members")
+    for name in cursor:
+        if name[0] == username:
+            print 'have eet'
 
+def test():
+    cursor.execute("INSERT INTO members (member_id, member_name, email, password, board_ids) VALUES ('{0}', 'artur', 'a@com.com', 'pasowrd', '')".format(random.randint(0,1000000000)))
+    conn.commit()
 # user: sign up
 #	NEED TO FIGURE HOW LOGIN SYSTEM IS GONNA WORK
 def signUp(name, email, password):
-	newID = 1
 	members = []
 
 	# Get all members from members
@@ -21,15 +29,10 @@ def signUp(name, email, password):
 	for member in cursor:
 		members.append(member)
 
-	if(len(members) > 0):
-		# Get the highest member_id in members
-		query2 = "SELECT MAX(member_id) FROM members"
-		cursor.execute(query2)
-		newID = int(cursor) + 1
-
 	# Insert all the parameters into the members
-	query3 = "INSERT INTO members (member_id, member_name, email, password, board_ids) VALUES (%d," % newID + " %s," % name + " %s," % email + " %s, '')" % password
+	query3 = "INSERT INTO members (member_id, member_name, email, password, board_ids) VALUES ('{0}', '{1}', '{2}', '{3}', '')".format(random.randint(0,1000000000), name, email, password)
 	cursor.execute(query3)
+        conn.commit()
 
 # leader: make board
 #	Will the members parameter be a list, string, or what?
@@ -54,7 +57,7 @@ def makeBoard(name, leader, members):
 
 	# Put all member IDs into a string
 	memberIDs = ""
-
+        
 
 	# Insert all the parameters into the boards
 	query3 = "INSERT INTO boards (board_id, board_name, task_ids, leader_id, member_ids) VALUES (%d," % newID + " %s," % name + " %s," % email + " %d, '')" % leaderID
@@ -125,6 +128,11 @@ def getUsers(board_name):
         nameList.append(name)
 
     return nameList
+
+def getAllUsers():
+    query = "SELECT * FROM members"
+    return cursor.execute(query)
+
 
 # board: get tasks
 def getTasks(board_name):
