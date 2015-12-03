@@ -2,6 +2,7 @@ import mysql.connector
 import random
 import string
 import unicodedata
+from Member import *
 
 conn = mysql.connector.connect(user='tempuser', password='password', database='project_brian_test')
 cursor = conn.cursor()
@@ -10,10 +11,20 @@ def id_generator(size=6, char=string.ascii_uppercase + string.digits):
     return ''.join(random.choice(chars) for _ in range(size))
 
 def checkLogin(username, password):
-    cursor.execute("SELECT member_name FROM members")
-    for name in cursor:
-        if name[0] == username:
-            print 'have eet'
+    cursor.execute("SELECT member_name,password FROM members")
+    temp = False
+    for (name,passe) in cursor:
+        if name == username and passe == password:
+            temp = True
+    return temp
+            
+def instantiateMember(username):
+    cursor.execute("SELECT member_id, member_name, email, password, board_ids FROM members")
+    for (member_id, member_name, email, password, board_ids) in cursor:
+        if username == member_name:
+            newmember = Member(member_id,member_name,email,password,board_ids)
+            
+    return newmember
 
 def test():
     cursor.execute("INSERT INTO members (member_id, member_name, email, password, board_ids) VALUES ('{0}', 'artur', 'a@com.com', 'pasowrd', '')".format(random.randint(0,1000000000)))

@@ -37,19 +37,24 @@ table = DoubleTable(table_data, 'Board Name')
 
 table.inner_row_border = True
 print(table.table)
-print(models.database.checkLogin("sadf", "we"))
 
 in_data = 'login'
 while in_data != 'quit':
     if in_data == 'login':
         username = prompt.query('Enter username(1 to sign-up):')
-        if username == '1':
+        if username == '1': #create user
             username = prompt.query('Enter username:')
             email = prompt.query('Enter e-mail:')
             password = getpass.getpass('Enter password:')
             models.database.signUp(username, email, password)
         else:
             password = getpass.getpass('Password:')
+
+        if models.database.checkLogin(username,password):
+            #instantiat object after LOG IN!!!
+            print models.database.instantiateMember(username)
+        else:
+            in_data = 'login'
             
         
         
