@@ -45,35 +45,6 @@ def signUp(name, email, password):
 	cursor.execute(query3)
         conn.commit()
 
-# leader: make board
-#	Will the members parameter be a list, string, or what?
-def makeBoard(name, leader, members):
-	newID = 1
-	boards = []
-
-	# Get all boards from boards
-	query1 = "SELECT * FROM boards"
-	cursor.execute(query1)
-	for board in cursor:
-		boards.append(board)
-
-	if(len(boards) > 0):
-		# Get the highest board_id in boards
-		query2 = "SELECT MAX(board_id) FROM boards"
-		cursor.execute(query2)
-		newID = int(cursor) + 1
-
-	# Get leader_id
-	leaderID = leader.getID()
-
-	# Put all member IDs into a string
-	memberIDs = ""
-        
-
-	# Insert all the parameters into the boards
-	query3 = "INSERT INTO boards (board_id, board_name, task_ids, leader_id, member_ids) VALUES (%d," % newID + " %s," % name + " %s," % email + " %d, '')" % leaderID
-	cursor.execute(query3)
-
 # leader: add members to board (?)
 def addMembers(board, members):
     for n in members:
