@@ -1,4 +1,4 @@
-from member import Member
+from Member import Member
 import database
 
 class Leader (Member):
