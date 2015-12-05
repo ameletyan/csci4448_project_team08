@@ -52,27 +52,32 @@ while in_data != 'quit':
 
         if models.database.checkLogin(username,password):
             #instantiat object after LOG IN!!!
-            print models.database.instantiateMember(username)
+            user = models.database.instantiateMember(username)
+
+            in_data = 'boards' 
         else:
             in_data = 'login'
             
         
         
 
-        in_data = 'boards' 
 
 
     if in_data == 'boards':
         #show boards
-        in_data = prompt.query('Pick board:')
+        in_data = prompt.query('Pick board(0 to create):')
 
-        if in_data == 'create':
+        if in_data == '0':
             boardName = prompt.query('Enter board name:')
             '''creator = member.getName()
             do leader stuff?'''
-            printTasks()
+            boardUsers = prompt.query('Enter users(separate by comma)"')
+	    print boardUsers 
+	    boardUsers = boardUsers.split(',')
+	    print boardUsers
+	    user.makeBoard(boardName,user,boardUsers)
+
                 
-    in_data = prompt.query('Enter Page')
 '''
 def printTasks():
     #get data from db

@@ -2,7 +2,7 @@ import mysql.connector
 import random
 import string
 import unicodedata
-from Member import *
+import Member
 
 conn = mysql.connector.connect(user='tempuser', password='password', database='project_brian_test')
 cursor = conn.cursor()
@@ -22,7 +22,7 @@ def instantiateMember(username):
     cursor.execute("SELECT member_id, member_name, email, password, board_ids FROM members")
     for (member_id, member_name, email, password, board_ids) in cursor:
         if username == member_name:
-            newmember = Member(member_id,member_name,email,password,board_ids)
+            newmember = Member.Member(member_id,member_name,email,password,board_ids)
             
     return newmember
 
