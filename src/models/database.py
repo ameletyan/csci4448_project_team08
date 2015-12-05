@@ -3,6 +3,9 @@ import random
 import string
 import unicodedata
 import Member
+from terminaltables import DoubleTable
+import console
+
 
 conn = mysql.connector.connect(user='tempuser', password='password', database='project_brian_test')
 cursor = conn.cursor()
@@ -143,6 +146,70 @@ def main():
 
     cursor.close()
     conn.close()
+def insert (source_str, insert_str, pos):
+    return source_str[:pos]+insert_str+source_str[pos:]
+
+def printTasks(board_id,board_name):
+	query = "SELECT task_ids FROM boards WHERE board_id = {0}".format(board_id)
+	cursor.execute(query)
+	taskList = []
+	for task in cursor:
+		taskList.append(task)
+	print taskList
+
+	tasks = []
+	for task in taskList:
+		query2 = "SELECT task_description,task_state FROM tasks WHERE task_id = {0}".format(task)
+		currentTask = cursor.execute(query2)
+		tasks.append(currentTask)
+
+	print tasks
+
+	bl = 0
+	ip = 0
+	done = 0
+	blList = []
+	ipList = []
+	doneList = []
+	i = 0
+	(width, height) = console.getTerminalSize()
+	for task in tasks:
+		for char in task[0]:
+			if i == width/3-4:
+				task[0] = insert(task[0],'\n',i) 
+	    	i+=1
+		if task[1] == 0:
+			bl += 1
+			blList.append(task[0])
+		if task[1] == 1:
+			ip+= 1
+			ipList.append(task[0])
+		if task[1] == 2:
+			done += 1
+			doneList.append(task[0])
+	backLogWithSpacing = "Backlog" + " " * (width/3-4-len("Backlog"))
+	inProgressWithSpacing = "In Progress" + " " * (width/3-4-len("In Progress"))
+	doneWithSpacing = "Done" + " " * (width/3-4-len("Done"))
+	allTasks = [[backLogWithSpacing,inProgressWithSpacing,doneWithSpacing]]
+	for i in range (0,max(bl,ip,done)):
+		currentList = []
+		if i < bl:
+			currentList.append(blList[i])
+		else:
+			currentList.append('')
+		if i < ip:
+			currentList.append[ipList[i]]
+		else:
+			currentList.append('')
+		if i < done:
+			currentList.append(doneList[i])
+		else:
+			currentList.append('')
+		allTasks.append(currentList)
+
+	table = DoubleTable(allTasks, board_name)
+	table.inner_row_border = True
+	print(table.table)
 
 if __name__ == '__main__':
     main()
