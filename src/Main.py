@@ -1,6 +1,6 @@
 #import task, board, member, leader
 from models.leader import Leader
-from models.member import Member
+from models.Member import Member
 from models.board import Board
 from models.task import TaskState, BackLog, InProgress, Done, TaskContext
 import models.database
