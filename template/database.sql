@@ -10,7 +10,6 @@ CREATE TABLE boards
 CREATE TABLE tasks
 (
     task_id integer,
-    task_title varchar(50),
     task_description varchar(256),
     task_state varchar(5),
    	member_id integer 
