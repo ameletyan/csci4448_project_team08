@@ -2,6 +2,8 @@ import ctypes
 import database
 import random
 import mysql.connector
+
+
 conn = mysql.connector.connect(user='tempuser',password='password',database='project_brian_test')
 cursor = conn.cursor()
 
@@ -15,14 +17,14 @@ class Member:
 
     # leader: make board
     #   Will the members parameter be a list, string, or what?
-    def makeBoard(self, name, leader, members):
+    def makeBoard(self, boardName, leader, members):
         board_list = []
         # Get all boards from boards
         board_name= "SELECT board_name FROM boards"
         cursor.execute(board_name)
         for board in cursor:
             board_list.append(board)
-        if name in board_list:
+        if boardName in board_list:
             print 'Board name already exist, please try a different name' 
             return 0
         board_id = random.randint(0,1000000000)
@@ -31,8 +33,8 @@ class Member:
         existing_members = []
         member_name = 'SELECT member_name FROM members'
         cursor.execute(member_name)
-        for name in cursor:
-            existing_members.append(name)
+        for i in cursor:
+            existing_members.append(i)
 	print existing_members
         expectedLength = len(members)
 	gottenLength = 0
@@ -52,14 +54,19 @@ class Member:
         existing_member_ids = []
         for name in members:
             member_ids = "SELECT member_id FROM members WHERE member_name='%s'" %name
-            x = cursor.execute(member_ids)
-            existing_member_ids.append(x)
+            print member_ids
+            cursor.execute(member_ids)
+            for name in cursor:
+                print name
+                existing_member_ids.append(name[0])
+        print 'existing member ids is.. '
         print existing_member_ids 
-	# Insert all the parameters into the boards
-        query3 = "INSERT INTO boards (board_id, board_name, task_ids, leader_id, member_ids) VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', '')".format(random.randint(0,1000000000),  name, task_ids, leader_id, existing_member_ids)
+	    # Insert all the parameters into the boards
+        query3 = "INSERT INTO boards (board_id, board_name, task_ids, leader_id, member_ids) VALUES ({0}, '{1}', '{2}', {3}, '{4}')".format(random.randint(0,1000000000),  boardName, task_ids, leader_id, existing_member_ids)
 
         cursor.execute(query3)
         conn.commit()	
+        return 1
 
 	def joinBoard(self, board):
 		def Mbox(title, text, style):
