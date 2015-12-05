@@ -80,7 +80,9 @@ while in_data != 'quit':
         in_data = prompt.query('Enter task:')             
         if in_data != 0:
             members = prompt.query('Enter member for task:')
-''' 
+            task = currentBoard.makeTasks(in_data,members)
+            print task
+'''     
 def printTasks():
     #get data from db
     backlog = ['1.', 'This is task 1 it is cooliasidfisadfiasidfiasdfiasidfisadiiasdfjas djfisajdf isadfij asidfjisad fijsaidf isjdfiasdfi jaisdfj iasdjfi jasidfj iasdfj iasjdfi ajsdifj saidjf iasjdfijasdifjiasdjfi jaisdjfiasdfjf', 'EFL']

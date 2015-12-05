@@ -2,7 +2,7 @@ import ctypes
 import database
 import random
 import mysql.connector
-
+from board import Board
 
 conn = mysql.connector.connect(user='tempuser',password='password',database='project_brian_test')
 cursor = conn.cursor()
@@ -62,11 +62,12 @@ class Member:
         print 'existing member ids is.. '
         print existing_member_ids 
 	    # Insert all the parameters into the boards
-        query3 = "INSERT INTO boards (board_id, board_name, task_ids, leader_id, member_ids) VALUES ({0}, '{1}', '{2}', {3}, '{4}')".format(random.randint(0,1000000000),  boardName, task_ids, leader_id, existing_member_ids)
+        boardID = random.randint(0,1000000000)
+        query3 = "INSERT INTO boards (board_id, board_name, task_ids, leader_id, member_ids) VALUES ({0}, '{1}', '{2}', {3}, '{4}')".format(boardID,  boardName, task_ids, leader_id, existing_member_ids)
 
         cursor.execute(query3)
         conn.commit()	
-        return 1
+        return Board(boardID,boardName,task_ids,leader_id,existing_member_ids)
 
 	def joinBoard(self, board):
 		def Mbox(title, text, style):
