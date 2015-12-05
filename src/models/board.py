@@ -10,7 +10,7 @@ cursor = conn.cursor()
 
 class Board:
     def __init__(self, board_id, board_name, task_ids, leader_id, member_ids):
-        self.id = board_id
+        self.iden = board_id
         self.name = board_name
         self.tasks = task_ids
         self.leader = leader_id
@@ -37,6 +37,7 @@ class Board:
         for i in cursor:
             existing_members.append(i[0]) 
 
+
         no_member = True
         for j in range(len(existing_members)):
             if(member == existing_members[j]):
@@ -51,9 +52,16 @@ class Board:
         for i in cursor:
             member_id = i
 
-        query = "INSERT INTO tasks (task_id, task_description, task_state, member_id) VALUES ({0}, '{1}', {3}, {4})".format(task_id, description, task_state, member_id)
-        
-        cursor.execute(query3)
+
+        query = "INSERT INTO tasks (task_id, task_description, task_state, member_id) VALUES ({0}, '{1}', {2}, {3})".format(task_id, description, task_state, member_id[0])
+        cursor.execute(query)
+        conn.commit()
+
+        # Update self.tasks
+        self.tasks = self.tasks + str(task_id) + ','
+        # Update database with new self.tasks
+        update_board = "UPDATE boards SET task_ids = '{0}' WHERE board_id = {1}".format(self.tasks, self.iden)
+        cursor.execute(update_board)
         conn.commit()
 
     def createTasks(self,taskContent,owners):
@@ -61,7 +69,7 @@ class Board:
         self.tasks.append(newTask)
 
     def getID(self):
-        return self.id
+        return self.iden
 
     def getName(self):
         return self.name
