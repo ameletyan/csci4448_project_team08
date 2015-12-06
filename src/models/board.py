@@ -5,8 +5,8 @@ import database
 import random
 import mysql.connector
 
-conn = mysql.connector.connect(user='tempuser',password='password',database='project_brian_test')
-cursor = conn.cursor()
+#conn = mysql.connector.connect(user='tempuser',password='password',database='project_brian_test')
+#cursor = conn.cursor()
 
 class Board:
     def __init__(self, board_id, board_name, task_ids, leader_id, member_ids):
@@ -21,7 +21,7 @@ class Board:
         task_state = 0
 
         description_query = "SELECT task_description FROM tasks"
-        cursor.execute(description_query)
+        database.cursor.execute(description_query)
         for i in cursor:
             if i == description:
                 print 'This descrption is already in the database %s' %i

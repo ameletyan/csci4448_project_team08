@@ -4,8 +4,8 @@ import random
 import mysql.connector
 from board import Board
 
-conn = mysql.connector.connect(user='tempuser',password='password',database='project_brian_test')
-cursor = conn.cursor()
+#conn = mysql.connector.connect(user='tempuser',password='password',database='project_brian_test')
+#cursor = conn.cursor()
 
 class Member:
     def __init__(self, member_id, member_name, email, password, board_ids):
@@ -21,8 +21,8 @@ class Member:
         board_list = []
         # Get all boards from boards
         board_name= "SELECT board_name FROM boards"
-        cursor.execute(board_name)
-        for board in cursor:
+        database.cursor.execute(board_name)
+        for board in database.cursor:
             board_list.append(board)
         if boardName in board_list:
             print 'Board name already exist, please try a different name' 
@@ -32,8 +32,8 @@ class Member:
 	print members
         existing_members = []
         member_name = 'SELECT member_name FROM members'
-        cursor.execute(member_name)
-        for i in cursor:
+        database.cursor.execute(member_name)
+        for i in database.cursor:
             existing_members.append(i)
 	print existing_members
         expectedLength = len(members)
@@ -55,8 +55,8 @@ class Member:
         for name in members:
             member_ids = "SELECT member_id FROM members WHERE member_name='%s'" %name
             print member_ids
-            cursor.execute(member_ids)
-            for name in cursor:
+            database.cursor.execute(member_ids)
+            for name in database.cursor:
                 print name
                 existing_member_ids.append(name[0])
         print 'existing member ids is.. '
@@ -65,8 +65,8 @@ class Member:
         boardID = random.randint(0,1000000000)
         query3 = "INSERT INTO boards (board_id, board_name, task_ids, leader_id, member_ids) VALUES ({0}, '{1}', '{2}', {3}, '{4}')".format(boardID,  boardName, task_ids, leader_id, existing_member_ids)
 
-        cursor.execute(query3)
-        conn.commit()	
+        database.cursor.execute(query3)
+        database.conn.commit()	
         return Board(boardID,boardName,task_ids,leader_id,existing_member_ids)
 
 	def joinBoard(self, board):
