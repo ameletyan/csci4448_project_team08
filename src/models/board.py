@@ -63,6 +63,7 @@ class Board:
         update_board = "UPDATE boards SET task_ids = '{0}' WHERE board_id = {1}".format(self.tasks, self.iden)
         cursor.execute(update_board)
         conn.commit()
+        return TaskContext(description, member, task_id)
 
     def createTasks(self,taskContent,owners):
         newTask = TaskContext(taskContent,owners)
