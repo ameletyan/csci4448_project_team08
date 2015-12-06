@@ -22,7 +22,7 @@ class Board:
 
         description_query = "SELECT task_description FROM tasks"
         database.cursor.execute(description_query)
-        for i in cursor:
+        for i in database.cursor:
             if i == description:
                 print 'This descrption is already in the database %s' %i
                 return 0
@@ -33,8 +33,8 @@ class Board:
 
         existing_members = []
         member_name = 'SELECT member_name FROM members'
-        cursor.execute(member_name)
-        for i in cursor:
+        database.cursor.execute(member_name)
+        for i in database.cursor:
             existing_members.append(i[0]) 
 
 
@@ -48,21 +48,21 @@ class Board:
             return 0
 
         find_id = "SELECT member_id FROM members WHERE member_name = '{0}'".format(member)
-        cursor.execute(find_id)
-        for i in cursor:
+        database.cursor.execute(find_id)
+        for i in database.cursor:
             member_id = i
 
 
         query = "INSERT INTO tasks (task_id, task_description, task_state, member_id) VALUES ({0}, '{1}', {2}, {3})".format(task_id, description, task_state, member_id[0])
-        cursor.execute(query)
-        conn.commit()
+        database.cursor.execute(query)
+        database.conn.commit()
 
         # Update self.tasks
         self.tasks = self.tasks + str(task_id) + ','
         # Update database with new self.tasks
         update_board = "UPDATE boards SET task_ids = '{0}' WHERE board_id = {1}".format(self.tasks, self.iden)
-        cursor.execute(update_board)
-        conn.commit()
+        database.cursor.execute(update_board)
+        database.conn.commit()
         return TaskContext(description, member, task_id)
 
     def createTasks(self,taskContent,owners):

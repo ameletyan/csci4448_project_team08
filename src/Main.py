@@ -69,10 +69,10 @@ while in_data != 'quit':
         temp = []
         for i in range (1,len(listBoards)+1):
             temp.append(listBoards[i-1])
-            if i % 4 == 0:
+            if i % 1 == 0:
                 printBoards.append(temp)
                 temp = []
-        table = DoubleTable(printBoards, 'Current Boards')
+        table = DoubleTable(printBoards, 'Boards')
         table.inner_row_border = True
         print(table.table)
         

@@ -158,12 +158,13 @@ def printTasks(board_id,board_name):
 	print taskList
 
 	tasks = []
-
-	for task in taskList:
-
-		query2 = "SELECT task_description,task_state FROM tasks WHERE task_id = {0}".format(task)
-		currentTask = cursor.execute(query2)
-		tasks.append(currentTask)
+	if str(taskList[0]) != "(u'',)":
+		for task in taskList:
+			print task
+			query2 = "SELECT task_description,task_state FROM tasks WHERE task_id = {0}".format(task)
+			currentTask = cursor.execute(query2)
+			print currentTask
+			tasks.append(currentTask)
 
 	print tasks
 
