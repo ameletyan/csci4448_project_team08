@@ -89,11 +89,13 @@ while in_data != 'quit':
 	    print boardUsers
         currentBoard = user.makeBoard(boardName,user,boardUsers)
         models.database.printTasks(currentBoard.getID(),currentBoard.getName())
-        in_data = prompt.query('Enter task:')             
-        if in_data != 0:
+       
+        while in_data != 0:
+            in_data = prompt.query('Enter task:')      
             members = prompt.query('Enter member for task:')
             task = currentBoard.makeTasks(in_data,members)
-            print task
+            models.database.printTasks(currentBoard.getID(),currentBoard.getName())
+
 
 
 

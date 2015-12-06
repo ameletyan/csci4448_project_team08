@@ -159,12 +159,15 @@ def printTasks(board_id,board_name):
 
 	tasks = []
 	if str(taskList[0]) != "(u'',)":
-		for task in taskList:
+		for task in str(taskList[0]).split(','):
 			print task
-			query2 = "SELECT task_description,task_state FROM tasks WHERE task_id = {0}".format(task)
-			currentTask = cursor.execute(query2)
-			print currentTask
-			tasks.append(currentTask)
+			if task != "'" and task != ')':
+				print task.strip('()').replace("u'","")
+				query2 = "SELECT task_description,task_state FROM tasks WHERE task_id = {0}".format(task.strip('()').replace("u'",""))
+				cursor.execute(query2)
+				for i in cursor:
+					print i
+					tasks.append(i)
 
 	print tasks
 
@@ -181,19 +184,24 @@ def printTasks(board_id,board_name):
 			if i == width/3-4:
 				task[0] = insert(task[0],'\n',i) 
 	    	i+=1
-		if task[1] == 0:
+		if task[1] == '0':
 			bl += 1
-			blList.append(task[0])
-		if task[1] == 1:
+			appender = '{0}'.format(i)+ ' '+task[0]
+			print appender
+			blList.append(appender)
+		if task[1] == '1':
 			ip+= 1
 			ipList.append(task[0])
-		if task[1] == 2:
+		if task[1] == '2':
 			done += 1
 			doneList.append(task[0])
 	backLogWithSpacing = "Backlog" + " " * (width/3-4-len("Backlog"))
 	inProgressWithSpacing = "In Progress" + " " * (width/3-4-len("In Progress"))
 	doneWithSpacing = "Done" + " " * (width/3-4-len("Done"))
 	allTasks = [[backLogWithSpacing,inProgressWithSpacing,doneWithSpacing]]
+	print bl
+	print ip
+	print done
 	for i in range (0,max(bl,ip,done)):
 		currentList = []
 		if i < bl:
