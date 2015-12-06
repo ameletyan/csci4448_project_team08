@@ -67,10 +67,12 @@ while in_data != 'quit':
         listBoards =  models.database.getBoards(user.getID())
         printBoards = []
         temp = []
+        print listBoards
         for i in range (1,len(listBoards)+1):
             temp.append(listBoards[i-1])
             if i % 1 == 0:
                 printBoards.append(temp)
+                print printBoards
                 temp = []
         table = DoubleTable(printBoards, 'Boards')
         table.inner_row_border = True
@@ -79,15 +81,16 @@ while in_data != 'quit':
         in_data = prompt.query('Pick board(0 to create):')
 
         if in_data == '0':
-            boardName = prompt.query('Enter board name:')
-            '''creator = member.getName()
-            do leader stuff?'''
-            boardUsers = prompt.query('Enter users(separate by comma)"')
-
-	    print boardUsers 
-	    boardUsers = boardUsers.split(',')
-	    print boardUsers
-        currentBoard = user.makeBoard(boardName,user,boardUsers)
+        	boardName = prompt.query('Enter board name:')
+        	boardUsers = prompt.query('Enter users(separate by comma):')
+        	print boardUsers 
+        	boardUsers = boardUsers.split(',')
+        	print boardUsers
+        	currentBoard = user.makeBoard(boardName,user,boardUsers)
+        else:
+	    	(boardid,leaderid, memberid,taskids) = models.database.pickBoard(in_data)
+	    	currentBoard = Board(boardid,in_data,taskids,leaderid,memberid)
+        
         models.database.printTasks(currentBoard.getID(),currentBoard.getName())
        
         while in_data != 0:

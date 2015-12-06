@@ -221,6 +221,12 @@ def printTasks(board_id,board_name):
 	table = DoubleTable(allTasks, board_name)
 	table.inner_row_border = True
 	print(table.table)
+def pickBoard(board_name):
+	query = "SELECT board_id,leader_id,member_ids,task_ids FROM boards WHERE board_name = {0}".format(board_name)
+	cursor.execute(query)
+	for i in cursor:
+		return i
+
 
 def getBoards(member_id):
 	finalList = []
@@ -230,10 +236,22 @@ def getBoards(member_id):
 		a = str(i[1])
 		a = a.strip('[]').replace(" ", "")
 		a = a.split(',')
+
 		for j in a:
 			if str(member_id) == j:
 				finalList.append(str(i[0]))
-				break
+	
+	query = "SELECT board_name,leader_id FROM boards"
+	cursor.execute(query)
+	for i in cursor:
+		a = str(i[1])
+		a = a.strip('[]').replace(" ", "")
+		a = a.split(',')
+
+		for j in a:
+
+			if str(member_id) == j:
+				finalList.append(str(i[0]))	
 
 
 
