@@ -155,21 +155,21 @@ def printTasks(board_id,board_name):
 	taskList = []
 	for task in cursor:
 		taskList.append(task)
-	print taskList
+	#print taskList
 
 	tasks = []
 	if str(taskList[0]) != "(u'',)":
 		for task in str(taskList[0]).split(','):
-			print task
+			#print task
 			if task != "'" and task != ')':
-				print task.strip('()').replace("u'","")
+				#print task.strip('()').replace("u'","")
 				query2 = "SELECT task_description,task_state FROM tasks WHERE task_id = {0}".format(task.strip('()').replace("u'",""))
 				cursor.execute(query2)
 				for i in cursor:
-					print i
+					#print i
 					tasks.append(i)
 
-	print tasks
+	#print tasks
 
 	bl = 0
 	ip = 0
@@ -187,7 +187,7 @@ def printTasks(board_id,board_name):
 		if task[1] == '0':
 			bl += 1
 			appender = '{0}'.format(i)+ ' '+task[0]
-			print appender
+			#print appender
 			blList.append(appender)
 		if task[1] == '1':
 			ip+= 1
@@ -199,9 +199,9 @@ def printTasks(board_id,board_name):
 	inProgressWithSpacing = "In Progress" + " " * (width/3-4-len("In Progress"))
 	doneWithSpacing = "Done" + " " * (width/3-4-len("Done"))
 	allTasks = [[backLogWithSpacing,inProgressWithSpacing,doneWithSpacing]]
-	print bl
-	print ip
-	print done
+	#print bl
+	#print ip
+	#print done
 	for i in range (0,max(bl,ip,done)):
 		currentList = []
 		if i < bl:
@@ -222,7 +222,7 @@ def printTasks(board_id,board_name):
 	table.inner_row_border = True
 	print(table.table)
 def pickBoard(board_name):
-	query = "SELECT board_id,leader_id,member_ids,task_ids FROM boards WHERE board_name = {0}".format(board_name)
+	query = "SELECT board_id,leader_id,member_ids,task_ids FROM boards WHERE board_name = '{0}'".format(board_name)
 	cursor.execute(query)
 	for i in cursor:
 		return i
@@ -253,40 +253,6 @@ def getBoards(member_id):
 			if str(member_id) == j:
 				finalList.append(str(i[0]))	
 
-
-
-	'''query = "SELECT member_ids FROM boards"
-	member_ids = []
-	cursor.execute(query)
-	for i in cursor:
-		member_ids.append(i)
-	print member_ids
-	query2 = "SELECT board_name FROM boards"
-	boardNames = []
-	cursor.execute(query2)
-	for i in cursor:
-		boardNames.append(i)
-	print boardNames
-	listNames = []
-	listofMembers = []
-	for i in range (0,len(boardNames)):
-		print i
-		listofMembers.append[i]
-		listofMembers[i] = member_ids[i][0].split('[')
-		listofMembers[i] = listofMembers[i].split(']')
-		listofMembers[i] = listofMembers[i].split(',')
-		print member_id
-		print member_id == member_ids[i][0]
-		for j in range (0,len(member_ids[i])):
-			print j
-
-
-
-			print ID == [member_id]
-			if [member_id] == ID:
-				print "hello"
-				listNames.append(boardName[i])
-				break'''
 	#return listNames
 	return finalList
 if __name__ == '__main__':

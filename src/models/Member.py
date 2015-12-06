@@ -29,13 +29,13 @@ class Member:
             return 0
         board_id = random.randint(0,1000000000)
         leader_id = leader.getID()
-	print members
+	#print members
         existing_members = []
         member_name = 'SELECT member_name FROM members'
         database.cursor.execute(member_name)
         for i in database.cursor:
             existing_members.append(i)
-	print existing_members
+	#print existing_members
         expectedLength = len(members)
 	gottenLength = 0
         for i in range (0,len(members)):
@@ -54,13 +54,13 @@ class Member:
         existing_member_ids = []
         for name in members:
             member_ids = "SELECT member_id FROM members WHERE member_name='%s'" %name
-            print member_ids
+           # print member_ids
             database.cursor.execute(member_ids)
             for name in database.cursor:
-                print name
+               # print name
                 existing_member_ids.append(name[0])
-        print 'existing member ids is.. '
-        print existing_member_ids 
+        #print 'existing member ids is.. '
+        #print existing_member_ids 
 	    # Insert all the parameters into the boards
         boardID = random.randint(0,1000000000)
         query3 = "INSERT INTO boards (board_id, board_name, task_ids, leader_id, member_ids) VALUES ({0}, '{1}', '{2}', {3}, '{4}')".format(boardID,  boardName, task_ids, leader_id, existing_member_ids)
