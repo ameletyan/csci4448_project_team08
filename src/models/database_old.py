@@ -158,9 +158,7 @@ def printTasks(board_id,board_name):
 	print taskList
 
 	tasks = []
-
 	for task in taskList:
-
 		query2 = "SELECT task_description,task_state FROM tasks WHERE task_id = {0}".format(task)
 		currentTask = cursor.execute(query2)
 		tasks.append(currentTask)
@@ -213,54 +211,5 @@ def printTasks(board_id,board_name):
 	table.inner_row_border = True
 	print(table.table)
 
-def getBoards(member_id):
-	finalList = []
-	query = "SELECT board_name,member_ids FROM boards"
-	cursor.execute(query)
-	for i in cursor:
-		a = str(i[1])
-		a = a.strip('[]').replace(" ", "")
-		a = a.split(',')
-		for j in a:
-			if str(member_id) == j:
-				finalList.append(str(i[0]))
-				break
-
-
-
-	'''query = "SELECT member_ids FROM boards"
-	member_ids = []
-	cursor.execute(query)
-	for i in cursor:
-		member_ids.append(i)
-	print member_ids
-	query2 = "SELECT board_name FROM boards"
-	boardNames = []
-	cursor.execute(query2)
-	for i in cursor:
-		boardNames.append(i)
-	print boardNames
-	listNames = []
-	listofMembers = []
-	for i in range (0,len(boardNames)):
-		print i
-		listofMembers.append[i]
-		listofMembers[i] = member_ids[i][0].split('[')
-		listofMembers[i] = listofMembers[i].split(']')
-		listofMembers[i] = listofMembers[i].split(',')
-		print member_id
-		print member_id == member_ids[i][0]
-		for j in range (0,len(member_ids[i])):
-			print j
-
-
-
-			print ID == [member_id]
-			if [member_id] == ID:
-				print "hello"
-				listNames.append(boardName[i])
-				break'''
-	#return listNames
-	return finalList
 if __name__ == '__main__':
     main()

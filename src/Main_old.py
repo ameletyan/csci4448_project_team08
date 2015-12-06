@@ -13,7 +13,7 @@ import getpass
 
 
 
-'''def insert (source_str, insert_str, pos):
+def insert (source_str, insert_str, pos):
     return source_str[:pos]+insert_str+source_str[pos:]
 
 (width, height) = console.getTerminalSize()
@@ -36,13 +36,13 @@ table_data = [
 table = DoubleTable(table_data, 'Board Name')
 
 table.inner_row_border = True
-print(table.table)'''
+print(table.table)
 
 in_data = 'login'
 while in_data != 'quit':
     if in_data == 'login':
-        username = prompt.query('Enter username(0 to sign-up):')
-        if username == '0': #create user
+        username = prompt.query('Enter username(1 to sign-up):')
+        if username == '1': #create user
             username = prompt.query('Enter username:')
             email = prompt.query('Enter e-mail:')
             password = getpass.getpass('Enter password:')
@@ -64,18 +64,7 @@ while in_data != 'quit':
 
 
     if in_data == 'boards':
-        listBoards =  models.database.getBoards(user.getID())
-        printBoards = []
-        temp = []
-        for i in range (1,len(listBoards)+1):
-            temp.append(listBoards[i-1])
-            if i % 4 == 0:
-                printBoards.append(temp)
-                temp = []
-        table = DoubleTable(printBoards, 'Current Boards')
-        table.inner_row_border = True
-        print(table.table)
-        
+        #show boards
         in_data = prompt.query('Pick board(0 to create):')
 
         if in_data == '0':
@@ -83,7 +72,6 @@ while in_data != 'quit':
             '''creator = member.getName()
             do leader stuff?'''
             boardUsers = prompt.query('Enter users(separate by comma)"')
-
 	    print boardUsers 
 	    boardUsers = boardUsers.split(',')
 	    print boardUsers
@@ -94,9 +82,6 @@ while in_data != 'quit':
             members = prompt.query('Enter member for task:')
             task = currentBoard.makeTasks(in_data,members)
             print task
-
-
-
 '''     
 def printTasks():
     #get data from db
