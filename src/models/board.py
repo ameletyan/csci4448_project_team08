@@ -52,18 +52,57 @@ class Board:
         for i in database.cursor:
             member_id = i
 
-
-        query = "INSERT INTO tasks (task_id, task_description, task_state, member_id) VALUES ({0}, '{1}', {2}, {3})".format(task_id, description, task_state, member_id[0])
+        
+        query = "INSERT INTO tasks (task_id, task_description, task_state, member_id, board_id) VALUES ({0}, '{1}', {2}, {3}, {4})".format(task_id, description, task_state, member_id[0], self.iden)
         database.cursor.execute(query)
         database.conn.commit()
 
         # Update self.tasks
         self.tasks = self.tasks + str(task_id) + ','
         # Update database with new self.tasks
-        update_board = "UPDATE boards SET task_ids = '{0}' WHERE board_id = {1}".format(self.tasks, self.iden)
+        update_board = "UPDATE boards SET task_ids = '{0}' WHERE board_id ={1}".format(self.tasks, self.iden)
         database.cursor.execute(update_board)
         database.conn.commit()
         return TaskContext(description, member, task_id)
+
+    def moveTask(self, task_number, state): 
+        print 'self.iden is ...'
+        print type(self.iden)
+        # TODO: finish this query
+        query = "SELECT task_description FROM tasks JOIN boards ON task_id=k WHERE board_id={0}".format(self.iden)
+        database.cursor.execute(query)
+        description_list = []
+        for i in cursor:
+            description_list.append(i)
+        
+        task_number_list = []
+        for i in description_list:
+            task_number_list = description_list[i].split(':')[0]
+        
+        for i in task_number_list:
+            if i == str(task_number):
+                desc = description_list[i]
+                task_id = "SELECT task_id FROM tasks WHERE task_description = '{0}'".format(desc)
+                database.cursor.execute(task_id)
+                for x in cursor:
+                    iden = x
+                member = "SELECT member FROM tasks WHERE task_description = '{0}'".format(desc)
+                database.cursor.execute(member)
+                for x in cursor:
+                    mem = member
+            
+            task = TaskState(desc, mem, iden)
+
+            if state == 0:
+                task.moveToBacklog()
+            elif state == 1:
+                task.moveToInProgress()
+            elif state == 2:
+                task.moveToDone()
+            else:
+                print 'Invalid input: should be 0, 1, or 2'
+                return 0
+                
 
     def createTasks(self,taskContent,owners):
         newTask = TaskContext(taskContent,owners)

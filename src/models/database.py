@@ -206,6 +206,7 @@ def printTasks(board_id,board_name):
 			cursor.execute(update_query)
 			conn.commit()
 			doneList.append(task[0])
+	
 	backLogWithSpacing = "Backlog" + " " * (width/3-4-len("Backlog"))
 	inProgressWithSpacing = "In Progress" + " " * (width/3-4-len("In Progress"))
 	doneWithSpacing = "Done" + " " * (width/3-4-len("Done"))
