@@ -55,11 +55,19 @@ while in_data != 'quit':
         	#print boardUsers
         	currentBoard = user.makeBoard(boardName,user,boardUsers)
         else:
-	    	(boardid,leaderid, memberid,taskids) = models.database.pickBoard(in_data)
-	    	currentBoard = Board(boardid,in_data,taskids,leaderid,memberid)
-        print 'first'
-        models.database.printTasks(currentBoard.getID(),currentBoard.getName())
-	print 'done'
+	    	try:
+			(boardid,leaderid, memberid,taskids) = models.database.pickBoard(in_data)
+	    		#currentBoard = Board(boardid,in_data,taskids,leaderid,memberid)
+		except NameError:
+			print "Enter valid board"
+			in_data = 'exit'
+		except TypeError:
+			print "Enter valid board"
+			in_data = 'exit'
+       		else:
+			currentBoard = Board(boardid,in_data,taskids,leaderid,memberid) 
+        		models.database.printTasks(currentBoard.getID(),currentBoard.getName())
+        #models.database.printTasks(currentBoard.getID(),currentBoard.getName())
         '''
         while in_data != 0:
             in_data = prompt.query('Enter task:')      
@@ -77,7 +85,7 @@ while in_data != 'quit':
 			models.database.printTasks(currentBoard.getID(),currentBoard.getName())
          	
 		elif(in_data != 'exit'):
-         		column = prompt.query("\n0 - Backlog\n1 - In Progress\n2 - Done\nMove to:")
+         		column = prompt.query("0 - Backlog\n1 - In Progress\n2 - Done\nMove to:")
          		currentBoard.moveTask(in_data, column)	
 			#models.database.printTasks(currentBoard.getID(),currentBoard.getName())
         

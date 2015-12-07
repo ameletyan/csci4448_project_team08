@@ -156,21 +156,21 @@ def printTasks(board_id,board_name):
 	taskList = []
 	for task in cursor:
 		taskList.append(task)
-	print taskList
+	#print taskList
 
 	tasks = []
 	if str(taskList[0]) != "(u'',)":
 		for task in str(taskList[0]).split(','):
-			print task
+			#print task
 			if task != "'" and task != ')':
-				print task.strip('()').replace("u'","")
+				#print task.strip('()').replace("u'","")
 				query2 = "SELECT task_description,task_state FROM tasks WHERE task_id = {0}".format(task.strip('()').replace("u'",""))
 				cursor.execute(query2)
 				for i in cursor:
-					print i
+					#print i
 					tasks.append(i)
 
-	print tasks
+	#print tasks
 
 	bl = 0
 	ip = 0
@@ -210,9 +210,9 @@ def printTasks(board_id,board_name):
 	inProgressWithSpacing = "In Progress" + " " * (width/3-4-len("In Progress"))
 	doneWithSpacing = "Done" + " " * (width/3-4-len("Done"))
 	allTasks = [[backLogWithSpacing,inProgressWithSpacing,doneWithSpacing]]
-	print bl
-	print ip
-	print done
+	#print bl
+	#print ip
+	#print done
 	for i in range (0,max(bl,ip,done)):
 		currentList = []
 		if i < bl:
