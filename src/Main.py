@@ -59,9 +59,22 @@ while in_data != 'quit':
 	    	currentBoard = Board(boardid,in_data,taskids,leaderid,memberid)
         
         models.database.printTasks(currentBoard.getID(),currentBoard.getName())
-       
+        '''
         while in_data != 0:
             in_data = prompt.query('Enter task:')      
             members = prompt.query('Enter member for task:')
             task = currentBoard.makeTasks(in_data,members)
             models.database.printTasks(currentBoard.getID(),currentBoard.getName())
+
+        '''    
+        while in_data != 'exit':
+         	in_data = prompt.query('Select task (0 to make task):')
+         	if in_data == '0':
+         		description = prompt.query('Enter the description for the task:')
+         		members = prompt.query('Enter member for task:')
+         		task = currentBoard.makeTasks(description,members)
+         		models.database.printTasks(currentBoard.getID(),currentBoard.getName())
+         	elif(in_data != 'exit'):
+         		column = prompt.query("\n0 - Backlog\n1 - In Progress\n2 - Done\nMove to:")
+         		currentBoard.moveTask(in_data, column)
+        in_data = 'boards'

@@ -5,6 +5,7 @@ import unicodedata
 import Member
 from terminaltables import DoubleTable
 import console
+import task
 
 
 conn = mysql.connector.connect(user='tempuser', password='password', database='project_brian_test')
@@ -186,14 +187,24 @@ def printTasks(board_id,board_name):
 	    	i+=1
 		if task[1] == '0':
 			bl += 1
-			appender = '{0}'.format(i)+ ' '+task[0]
-			#print appender
+			appender = '{0}'.format(i)+':'+task[0]
+			#appender = '{0}'.format(i)+ ' '+task[0]
+			update_query = "UPDATE tasks SET task_description= '{0}' WHERE task_description='{1}'".format(appender, task[0])
+			cursor.execute(update_query)
+			conn.commit()
+
 			blList.append(appender)
 		if task[1] == '1':
+			update_query = "UPDATE tasks SET task_description= '{0}' WHERE task_description='{1}'".format(appender, task[0])
+			cursor.execute(update_query)
+			conn.commit()
 			ip+= 1
 			ipList.append(task[0])
 		if task[1] == '2':
 			done += 1
+			update_query = "UPDATE tasks SET task_description= '{0}' WHERE task_description='{1}'".format(appender, task[0])
+			cursor.execute(update_query)
+			conn.commit()
 			doneList.append(task[0])
 	backLogWithSpacing = "Backlog" + " " * (width/3-4-len("Backlog"))
 	inProgressWithSpacing = "In Progress" + " " * (width/3-4-len("In Progress"))

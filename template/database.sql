@@ -12,7 +12,8 @@ CREATE TABLE tasks
     task_id integer,
     task_description varchar(256),
     task_state varchar(5),
-   	member_id integer 
+   	member_id integer,
+    board_id integer 
 )
 
 CREATE TABLE members
