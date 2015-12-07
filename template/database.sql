@@ -4,13 +4,12 @@ CREATE TABLE boards
     board_name varchar(50),
     task_ids varchar(256),
 	leader_id integer,
-	member_ids varchar(256),
+	member_ids varchar(256)
 )
 
 CREATE TABLE tasks
 (
     task_id integer,
-    task_title varchar(50),
     task_description varchar(256),
     task_state varchar(5),
    	member_id integer 
