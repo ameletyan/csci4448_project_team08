@@ -47,19 +47,19 @@ class TaskContext:
 
     def moveToInProgress(self):
         self.content = InProgress(self.content)
-        query = "UPDATE tasks SET task_state=1 FROM tasks WHERE task_id='{0}'".format(self.content.getID())
+        query = "UPDATE tasks SET task_state=1 WHERE task_id='{0}'".format(self.content.getID())
         cursor.execute(query)
         conn.commit()
 
     def moveToBackLog(self):
         self.content = BackLog(self.content)
-        query = "UPDATE tasks SET task_state=0 FROM tasks WHERE task_id='{0}'".format(self.content.getID())
+        query = "UPDATE tasks SET task_state=0 WHERE task_id='{0}'".format(self.content.getID())
         cursor.execute(query)
         conn.commit()
 
     def moveToDone(self):
         self.content = Done(self.content)
-        query = "UPDATE tasks SET task_state=2 FROM tasks WHERE task_id='{0}'".format(self.content.getID())
+        query = "UPDATE tasks SET task_state=2 WHERE task_id='{0}'".format(self.content.getID())
         cursor.execute(query)
         conn.commit()
 

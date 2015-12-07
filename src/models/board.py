@@ -66,42 +66,76 @@ class Board:
         return TaskContext(description, member, task_id)
 
     def moveTask(self, task_number, state): 
-        print 'self.iden is ...'
-        print type(self.iden)
         # TODO: finish this query
-        query = "SELECT task_description FROM tasks JOIN boards ON task_id=k WHERE board_id={0}".format(self.iden)
+
+        '''
+        query = "SELECT task_description FROM tasks JOIN boards ON tasks.board_id=boards.board_id WHERE tasks.board_id={0}".format(self.iden)
+        print query
         database.cursor.execute(query)
         description_list = []
-        for i in cursor:
+        for i in database.cursor:
             description_list.append(i)
         
         task_number_list = []
         for i in description_list:
-            task_number_list = description_list[i].split(':')[0]
+            print i[0].split(':')[0]
+            task_number_list.append(i[0].split(':')[0])
         
-        for i in task_number_list:
+        for i in range(0, len(task_number_list)-1):
             if i == str(task_number):
                 desc = description_list[i]
                 task_id = "SELECT task_id FROM tasks WHERE task_description = '{0}'".format(desc)
                 database.cursor.execute(task_id)
-                for x in cursor:
+                for x in database.cursor:
                     iden = x
                 member = "SELECT member FROM tasks WHERE task_description = '{0}'".format(desc)
                 database.cursor.execute(member)
-                for x in cursor:
+                for x in database.cursor:
                     mem = member
             
-            task = TaskState(desc, mem, iden)
+        print desc
+        '''
 
-            if state == 0:
-                task.moveToBacklog()
-            elif state == 1:
-                task.moveToInProgress()
-            elif state == 2:
-                task.moveToDone()
-            else:
-                print 'Invalid input: should be 0, 1, or 2'
-                return 0
+
+        description_and_member = "SELECT task_description, member_id, task_id FROM tasks"
+        database.cursor.execute(description_and_member)
+        description_and_member_list = []
+        for i in database.cursor: 
+            description_and_member_list.append(i)
+
+        for i in range(0, len(description_and_member_list)):
+            if i+1 == int(task_number):
+                desc = description_and_member_list[i][0]
+                mem = description_and_member_list[i][1]
+                iden = description_and_member_list[i][2]
+
+
+        task = TaskContext(desc, mem, iden)
+        if int(state) == 0:
+            task.moveToBackLog()
+        elif int(state) == 1:
+            task.moveToInProgress()
+        elif int(state) == 2:
+            task.moveToDone()
+        else:
+            print 'Invalid input: should be 0, 1, or 2'
+            return 0
+
+
+
+        query = "SELECT task_id FROM tasks"
+        database.cursor.execute(query)
+        query_list = []
+
+        for i in database.cursor:
+            query_list.append(i)
+
+        for i in range(0, len(query_list)):
+            if i == task_number:
+                update_database = "UPDATE tasks SET task_state={0} WHERE task_id={1}".format(state, database.cursor[i])
+                database.cursor.execute(update_database)
+                database.conn.commit()
+
                 
 
     def createTasks(self,taskContent,owners):
